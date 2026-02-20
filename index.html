@@ -35,26 +35,43 @@
             .project-card.is-active .card-arrow {
                 opacity: 1;
             }
-            /* Mobile: FORZAR layout exacto con grid de 2 columnas */
+            /* Mobile: Layout fluido de una sola columna */
             @media (max-width: 767px) {
-                .page-sections {
+                .page-sections, 
+                .section-row-1, 
+                .section-row-2, 
+                .section-row-3 {
                     display: flex !important;
                     flex-direction: column !important;
-                    gap: 1.25rem !important;
-                }
-                .section-row-1, .section-row-2, .section-row-3 {
-                    display: contents !important;
-                }
-                /* Hero: 100% (ambas columnas) - Fila 1 */
-                .block-hero, .block-metrics, .block-sistema, .block-expertise, .block-project-1, .block-project-2, .block-activity {
                     width: 100% !important;
-                    grid-column: span 2 !important;
-                    order: unset !important;
+                    gap: 1.5rem !important; 
                 }
-                /* Div vacío para reservar espacio junto a Performance Metrics - misma fila */
+
+                .block-hero, 
+                .block-metrics, 
+                .block-sistema, 
+                .block-expertise, 
+                .block-project-1, 
+                .block-project-2, 
+                .block-activity {
+                    width: 100% !important;
+                    min-width: 100% !important;
+                    max-width: 100% !important;
+                    margin-left: 0 !important;
+                    margin-right: 0 !important;
+                    padding: 1.5rem !important;
+                }
+
+                .block-expertise .grid {
+                    grid-template-columns: repeat(2, 1fr) !important;
+                }
+
                 .block-empty-metrics {
                     display: none !important;
                 }
+
+                h1 { font-size: 2.5rem !important; line-height: 1.1 !important; }
+                p { font-size: 0.95rem !important; }
             }
             /* Desktop: layout exacto por filas, Hero/Sistema misma columna, 3 tarjetas en fila */
             @media (min-width: 768px) {
