@@ -1,0 +1,423 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Portafolio ✨</title>
+        <meta charset="utf-8" />
+        <meta
+            name="viewport"
+            content="width=device-width, initial-scale=1, shrink-to-fit=no"
+        />
+        <link
+            href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"
+            rel="stylesheet"
+            integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN"
+            crossorigin="anonymous"
+        />
+        <script src="https://code.jquery.com/jquery-4.0.0.js" integrity="sha256-9fsHeVnKBvqh3FB2HYu7g2xseAZ5MlN6Kz/qnkASV8U=" crossorigin="anonymous"></script>
+        <script src="https://cdn.tailwindcss.com"></script>
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css">
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/devicon.min.css">
+
+        <style>
+            /* Un solo estado de selección: borde y flecha siempre juntos */
+            .project-card {
+                border: 2px solid rgb(51 65 85); /* slate-700: estado no seleccionado */
+                transition: border-color 0.25s ease, box-shadow 0.25s ease;
+            }
+            .project-card .card-arrow {
+                opacity: 0;
+                transition: opacity 0.25s ease;
+            }
+            /* Estado activo (hover o foco): mismo estado para ambos indicadores */
+            .project-card.is-active {
+                border-color: rgb(59 130 246); /* blue-500 */
+            }
+            .project-card.is-active .card-arrow {
+                opacity: 1;
+            }
+            /* Mobile: FORZAR layout exacto con grid de 2 columnas */
+            @media (max-width: 767px) {
+                .page-sections {
+                    display: grid !important;
+                    grid-template-columns: 1fr 1fr !important;
+                    gap: 1rem;
+                }
+                .section-row-1, .section-row-2, .section-row-3 {
+                    display: contents !important;
+                }
+                /* Hero: 100% (ambas columnas) - Fila 1 */
+                .block-hero {
+                    order: 1 !important;
+                    grid-column: 1 / -1 !important;
+                    grid-row: 1 !important;
+                    width: 100% !important;
+                    min-width: 0;
+                }
+                /* Performance Metrics: 50% izquierda - Fila 2 */
+                .block-metrics {
+                    order: 2 !important;
+                    grid-column: 1 / 2 !important;
+                    grid-row: 2 !important;
+                    width: 100% !important;
+                    max-width: none !important;
+                    min-width: 0;
+                }
+                /* Sistema de gestión: 100% (ambas columnas) - Fila 3 */
+                .block-sistema {
+                    order: 3 !important;
+                    grid-column: 1 / -1 !important;
+                    grid-row: 3 !important;
+                    width: 100% !important;
+                    min-width: 0;
+                }
+                /* Expertise: izquierda - Fila 4 */
+                .block-expertise {
+                    order: 4 !important;
+                    grid-column: 1 / 2 !important;
+                    grid-row: 4 !important;
+                    width: 100% !important;
+                    min-width: 0;
+                }
+                /* Project 1: derecha - Fila 4 */
+                .block-project-1 {
+                    order: 5 !important;
+                    grid-column: 2 / 3 !important;
+                    grid-row: 4 !important;
+                    width: 100% !important;
+                    min-width: 0;
+                }
+                /* Project 2: izquierda - Fila 5 */
+                .block-project-2 {
+                    order: 6 !important;
+                    grid-column: 1 / 2 !important;
+                    grid-row: 5 !important;
+                    width: 100% !important;
+                    min-width: 0;
+                }
+                /* Activity: derecha - Fila 5 */
+                .block-activity {
+                    order: 7 !important;
+                    grid-column: 2 / 3 !important;
+                    grid-row: 5 !important;
+                    width: 100% !important;
+                    min-width: 0;
+                }
+                /* Div vacío para reservar espacio junto a Performance Metrics - misma fila */
+                .block-empty-metrics {
+                    order: 2 !important;
+                    grid-column: 2 / 3 !important;
+                    grid-row: 2 !important;
+                    display: block !important;
+                    min-height: 0;
+                }
+            }
+            /* Desktop: layout exacto por filas, Hero/Sistema misma columna, 3 tarjetas en fila */
+            @media (min-width: 768px) {
+                .page-sections {
+                    display: grid !important;
+                    grid-template-columns: minmax(0, 1fr) 24rem !important;
+                    grid-template-rows: auto auto auto !important;
+                    gap: 1.5rem !important;
+                }
+                .section-row-1, .section-row-2 {
+                    display: contents !important;
+                }
+                /* Desktop: una sola fila, tres columnas iguales */
+                .section-row-3 {
+                    display: grid !important;
+                    grid-template-columns: 1fr 1fr 1fr !important;
+                    grid-template-rows: auto !important;
+                    gap: 0.5rem !important;
+                    grid-column: 1 / -1 !important;
+                    grid-row: 3 !important;
+                    margin-top: 0 !important;
+                    min-width: 0 !important;
+                    width: 100% !important;
+                    box-sizing: border-box !important;
+                }
+                .section-row-3 .block-project-1 {
+                    grid-column: 1 !important;
+                    grid-row: 1 !important;
+                    min-width: 0 !important;
+                }
+                .section-row-3 .block-project-2 {
+                    grid-column: 2 !important;
+                    grid-row: 1 !important;
+                    min-width: 0 !important;
+                }
+                .section-row-3 .block-activity {
+                    grid-column: 3 !important;
+                    grid-row: 1 !important;
+                    min-width: 0 !important;
+                }
+                .block-hero {
+                    grid-column: 1 !important;
+                    grid-row: 1 !important;
+                    min-width: 0 !important;
+                }
+                .block-metrics {
+                    grid-column: 2 !important;
+                    grid-row: 1 !important;
+                    align-self: start !important;
+                }
+                .block-sistema {
+                    grid-column: 1 !important;
+                    grid-row: 2 !important;
+                    min-width: 0 !important;
+                }
+                .block-expertise {
+                    grid-column: 2 !important;
+                    grid-row: 2 !important;
+                    align-self: start !important;
+                }
+                .block-empty-metrics { display: none !important; }
+            }
+
+            /* Navbar fijo/pegajoso en la parte superior */
+            .nav-sticky {
+                position: sticky;
+                top: 0;
+                z-index: 40;
+            }
+        </style>
+    </head>
+    <body class="bg-black text-slate-100 antialiased">
+        <nav class="nav-sticky bg-transparent flex items-center px-6 py-4">
+            <a href="" class="text-2xl font-extrabold tracking-tight text-slate-100">MartínezSánchez</a>
+            <span class="ml-auto inline-flex items-center gap-2 rounded-full border border-emerald-500/60 bg-emerald-500/10 px-4 py-1 text-xs font-semibold tracking-wide text-emerald-300 uppercase">
+                <span class="h-2 w-2 rounded-full bg-emerald-400"></span>
+                Available for hire
+            </span>
+        </nav>
+
+        <div class="container mx-auto py-8 max-w-7xl px-6">
+            <div class="page-sections flex flex-col gap-6">
+            <div class="section-row-1 flex flex-col md:flex md:flex-row gap-6">
+                <div class="block-hero project-card bg-gradient-to-br from-slate-800 to-slate-900 border border-slate-700 p-8 rounded-2xl shadow-lg flex-1 ring-1 ring-slate-700/50 order-1 md:order-none col-span-2 md:col-span-none" tabindex="0" role="button">
+                <span class="inline-block text-sm font-semibold text-cyan-400 bg-slate-900/30 px-3 py-1 rounded-full">Desarrollador Jr</span>
+                <h1 class="text-4xl md:text-6xl font-extrabold mb-4 mt-4 bg-gradient-to-r from-blue-400 via-cyan-400 to-blue-500 text-transparent bg-clip-text">Virna Lissi</h1>
+                <p class="text-slate-400 text-lg max-w-xl">Desarrollar con experiencia en tecnologías web modernas, como laravel y react</p>
+                <div class="mt-6 flex items-center">
+                    <button id="contactBtn" class="px-4 py-2 rounded-lg bg-cyan-600 hover:bg-cyan-500 text-white font-semibold mr-4">Contactar</button>
+                    <button class="px-4 py-2 rounded-lg border border-slate-700 text-slate-300">Ver proyectos <i class="fa-solid fa-arrow-down ml-2"></i></button>
+                </div>
+                </div>
+                <div class="block-metrics project-card bg-slate-900/80 border-2 border-slate-700 p-6 rounded-2xl w-80 flex flex-col justify-between shadow-lg order-2 md:order-none col-span-2 md:col-span-none shrink-0" tabindex="0" role="button">
+                <div>
+                    <h3 class="text-slate-400 text-sm uppercase tracking-wider">Estadísticas</h3>
+                </div>
+                <div class="flex items-center justify-between mt-4">
+                    <div class="flex flex-col">
+                        <span class="text-3xl font-extrabold text-emerald-400">20</span>
+                        <span class="text-slate-400 text-sm">Proyectos</span>
+                    </div>
+                    <i class="fa-solid fa-file text-2xl text-emerald-400"></i>
+                </div>
+                <div class="flex items-center justify-between mt-4">
+                    <div class="flex flex-col">
+                        <span class="text-3xl font-extrabold text-rose-500">2</span>
+                        <span class="text-slate-400 text-sm">Finalizados</span>
+                    </div>
+                    <i class="fa-solid fa-file text-2xl text-rose-500"></i>
+                </div>
+                <div class="flex items-center justify-between mt-4">
+                    <div class="flex flex-col">
+                        <span class="text-3xl font-extrabold text-cyan-400">5</span>
+                        <span class="text-slate-400 text-sm">Años</span>
+                    </div>
+                    <i class="fa-solid fa-file text-2xl text-cyan-400"></i>
+                </div>
+                </div>
+                <div class="block-empty-metrics"></div>
+            </div>
+
+            <div class="section-row-2 flex flex-col md:flex md:flex-row gap-6 mt-6 md:mt-0">
+                    <div class="block-sistema project-card bg-slate-800/50 border-2 border-slate-700 p-6 rounded-2xl flex-1 shadow-md order-3 md:order-none col-span-2 md:col-span-none" tabindex="0" role="button">
+                        <div class="h-90 rounded-lg mb-4 overflow-hidden group">
+                            <img 
+                                src="img/sitio cursos.png"
+                                alt="Vista previa del sistema de gestión"
+                                class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
+                            >
+                        </div>
+                        <div class="flex gap-2 text-slate-300 mb-3">
+                            <span class="px-2 py-1 bg-slate-800/40 rounded-full text-sm">Angular</span>
+                            <span class="px-2 py-1 bg-slate-800/40 rounded-full text-sm">MongoDB</span>
+                        </div>
+                        <h2 class="text-xl font-bold text-white mb-2">Sistema de gestión de cursos</h2>
+                        <p class="text-slate-400">PlataformaCursos es una plataforma de educación en línea que permite crear
+                             y gestionar cursos, inscribirse, acceder a contenidos y realizar evaluaciones. Integra control 
+                             de roles (administrador, profesor y estudiante) y seguimiento de calificaciones, funcionando como 
+                             un LMS para organizar y distribuir aprendizaje digital.</p>
+                    </div>
+                    <div class="block-expertise project-card bg-slate-800/50 border-2 border-slate-700 p-6 rounded-2xl w-96 shadow-md order-4 md:order-none col-span-1 md:col-span-none shrink-0" tabindex="0" role="button">
+                        <h3 class="text-slate-200 font-semibold mb-4">Expertise / Languages</h3>
+                        <div class="grid grid-cols-3 gap-3">
+                            <!-- <div class="bg-slate-800/40 rounded-lg h-20 flex items-center justify-center text-slate-300 border border-slate-700/50">Python</div>
+                            <div class="bg-slate-700/50 rounded-lg h-20 flex items-center justify-center text-slate-300 border border-slate-600/30">C++</div>
+                            <div class="bg-slate-800/55 rounded-lg h-20 flex items-center justify-center text-slate-300 border border-slate-700/40">Php</div>
+                            <div class="bg-slate-700/45 rounded-lg h-20 flex items-center justify-center text-slate-300 border border-slate-600/40">MySQL</div>
+                            <div class="bg-slate-800/50 rounded-lg h-20 flex items-center justify-center text-slate-300 border border-slate-700/50">HTML</div>
+                            <div class="bg-slate-700/55 rounded-lg h-20 flex items-center justify-center text-slate-300 border border-slate-600/30">CSS</div> -->
+                            <div class="bg-slate-800/40 rounded-lg h-20 flex flex-col items-center justify-center gap-1 text-slate-300 border border-slate-700/50">
+                                <i class="devicon-python-plain text-3xl"></i>
+                                <span class="text-xs">Python</span>
+                            </div>
+
+                            <div class="bg-slate-700/50 rounded-lg h-20 flex flex-col items-center justify-center gap-1 text-slate-300 border border-slate-600/30">
+                                <i class="devicon-cplusplus-plain text-3xl"></i>
+                                <span class="text-xs">C++</span>
+                            </div>
+
+                            <div class="bg-slate-800/55 rounded-lg h-20 flex flex-col items-center justify-center gap-1 text-slate-300 border border-slate-700/40">
+                                <i class="devicon-php-plain text-3xl"></i>
+                                <span class="text-xs">PHP</span>
+                            </div>
+
+                            <div class="bg-slate-700/45 rounded-lg h-20 flex flex-col items-center justify-center gap-1 text-slate-300 border border-slate-600/40">
+                                <i class="devicon-mysql-plain text-3xl"></i>
+                                <span class="text-xs">MySQL</span>
+                            </div>
+
+                            <div class="bg-slate-800/50 rounded-lg h-20 flex flex-col items-center justify-center gap-1 text-slate-300 border border-slate-700/50">
+                                <i class="devicon-html5-plain text-3xl"></i>
+                                <span class="text-xs">HTML</span>
+                            </div>
+
+                            <div class="bg-slate-700/55 rounded-lg h-20 flex flex-col items-center justify-center gap-1 text-slate-300 border border-slate-600/30">
+                                <i class="devicon-css3-plain text-3xl"></i>
+                                <span class="text-xs">CSS</span>
+                            </div>
+                        </div>
+                    </div>
+            </div>
+
+            <div class="section-row-3 mt-8 gap-2">
+                    <div class="block-project-1 project-card bg-slate-900/60 p-4 rounded-xl shadow-md cursor-pointer outline-none relative min-h-[140px] order-5 md:order-none col-span-1 md:col-span-none" tabindex="0" role="button">
+                        <div class="flex items-start gap-3">
+                            <div class="w-10 h-10 bg-cyan-500/20 rounded-lg flex items-center justify-center flex-shrink-0">
+                                <i class="fa-solid fa-image text-cyan-500 text-sm"></i>
+                            </div>
+                            <div class="flex-1 min-w-0">
+                                <h2 class="text-base font-bold text-white leading-tight">Image Segmentation</h2>
+                                <p class="text-slate-400 text-xs uppercase tracking-wider mt-0.5">LABS / 08</p>
+                                <p class="text-slate-300 text-sm mt-2 leading-snug">Proyecto de visión por computadora enfocado en segmentación de imágenes médicas, con modelos de deep learning para identificar y delimitar regiones de interés.</p>
+                            </div>
+                        </div>
+                        <span class="card-arrow absolute bottom-3 right-3 text-blue-500 text-4xl font-bold leading-none" aria-hidden="true">→</span>
+                    </div>
+
+                    <div class="block-project-2 project-card bg-slate-900/60 p-4 rounded-xl shadow-md cursor-pointer outline-none relative min-h-[140px] order-6 md:order-none col-span-1 md:col-span-none" tabindex="0" role="button">
+                        <div class="flex items-start gap-3">
+                            <div class="w-10 h-10 bg-purple-500/20 rounded-lg flex items-center justify-center flex-shrink-0">
+                                <i class="fa-solid fa-mobile text-purple-500 text-sm"></i>
+                            </div>
+                            <div class="flex-1 min-w-0">
+                                <h2 class="text-base font-bold text-white leading-tight">Sleep Equation / Sleep Analysis</h2>
+                                <p class="text-slate-400 text-xs uppercase tracking-wider mt-0.5">LABS / 12</p>
+                                <p class="text-slate-300 text-sm mt-2 leading-snug">Proyecto de análisis del sueño con modelos matemáticos y procesamiento de datos biomédicos. Patrones y variables fisiológicas para modelar calidad del sueño y rendimiento.</p>
+                            </div>
+                        </div>
+                        <span class="card-arrow absolute bottom-3 right-3 text-blue-500 text-4xl font-bold leading-none" aria-hidden="true">→</span>
+                    </div>
+
+                <div class="block-activity project-card bg-slate-900/60 border-2 border-slate-800 p-4 rounded-2xl shadow-md order-7 md:order-none col-span-1 md:col-span-none" tabindex="0" role="button">
+                    <h3 class="text-slate-400 text-xs uppercase tracking-wider mb-2">ACTIVITY</h3>
+                    <div class="space-y-1.5">
+                        <div class="py-0.5">
+                            <p class="text-slate-300 text-sm font-semibold mb-0.5 leading-tight">
+                                <i class="fa-solid fa-code-branch text-cyan-500 mr-2"></i>
+                                <span class="text-cyan-400">merged</span> PR #1280 into production-main
+                            </p>
+                            <p class="text-slate-500 text-xs">2 minutes ago</p>
+                        </div>
+                        <div class="py-0.5">
+                            <p class="text-slate-300 text-sm font-semibold mb-0.5 leading-tight">
+                                <i class="fa-solid fa-rocket text-cyan-500 mr-2"></i>
+                                <span class="text-cyan-400">deploy</span> successfully pushed v2.4.0
+                            </p>
+                            <p class="text-slate-500 text-xs">45 minutes ago</p>
+                        </div>
+                    </div>
+                    <div class="mt-3 pt-3 border-t border-slate-700">
+                        <p class="text-slate-400 text-xs uppercase tracking-wider mb-2">COMMITS / WEEKLY</p>
+                        <div class="flex gap-0.5 items-center">
+                            <div class="w-3 h-3 bg-[#1e40af] rounded-sm"></div>
+                            <div class="w-3 h-3 bg-[#2563eb] rounded-sm"></div>
+                            <div class="w-3 h-3 bg-[#3b82f6] rounded-sm"></div>
+                            <div class="w-3 h-3 bg-[#60a5fa] rounded-sm"></div>
+                            <div class="w-3 h-3 bg-[#93c5fd] rounded-sm"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            </div>
+        </div>
+
+        <!-- Modal de Contacto -->
+        <div id="contactModal" class="hidden fixed inset-0 flex items-center justify-center z-50">
+            <!-- Overlay -->
+            <div id="contactOverlay" class="absolute inset-0 bg-black/60 backdrop-blur-sm"></div>
+            <!-- Modal Content -->
+            <div class="relative bg-gradient-to-br from-slate-800 to-slate-900 border border-slate-700 rounded-2xl shadow-2xl w-full max-w-md mx-4 p-6 md:p-8 z-10">
+                <!-- Header -->
+                <div class="flex items-center justify-between mb-6">
+                    <h2 class="text-2xl font-bold text-white">Contacto</h2>
+                    <button id="closeModalBtn" class="text-slate-400 hover:text-slate-200 transition-colors text-2xl leading-none">×</button>
+                </div>
+                
+                <!-- Contact Info -->
+                <div class="bg-slate-900/50 border border-slate-700 rounded-lg p-4 mb-6">
+                    <p class="text-sm text-slate-400 uppercase tracking-wider mb-2">Información de contacto</p>
+                    <p class="text-white font-semibold">Virna Lissi</p>
+                    <p class="text-cyan-400 text-sm">virna.lissi@example.com</p>
+                </div>
+                
+                <!-- Mensaje de respuesta -->
+                <div id="messageContainer" class="hidden mb-4 p-3 rounded-lg text-sm font-semibold transition-all"></div>
+                
+                <!-- Form -->
+                <form id="contactForm" class="space-y-4">
+                    <!-- Nombre -->
+                    <div>
+                        <label for="name" class="block text-sm font-semibold text-slate-300 mb-2">Nombre</label>
+                        <input id="name" type="text" placeholder="Tu nombre" required class="w-full bg-slate-900/50 border border-slate-700 rounded-lg px-4 py-2 text-white placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-cyan-500 focus:border-transparent transition-all">
+                    </div>
+                    
+                    <!-- Correo -->
+                    <div>
+                        <label for="email" class="block text-sm font-semibold text-slate-300 mb-2">Correo</label>
+                        <input id="email" type="email" placeholder="tu@email.com" required class="w-full bg-slate-900/50 border border-slate-700 rounded-lg px-4 py-2 text-white placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-cyan-500 focus:border-transparent transition-all">
+                    </div>
+                    
+                    <!-- Asunto -->
+                    <div>
+                        <label for="subject" class="block text-sm font-semibold text-slate-300 mb-2">Asunto</label>
+                        <input id="subject" type="text" placeholder="Asunto del mensaje" required class="w-full bg-slate-900/50 border border-slate-700 rounded-lg px-4 py-2 text-white placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-cyan-500 focus:border-transparent transition-all">
+                    </div>
+                    
+                    <!-- Buttons -->
+                    <div class="flex gap-3 pt-4">
+                        <button type="button" id="cancelModalBtn" class="flex-1 px-4 py-2 rounded-lg border border-slate-700 text-slate-300 hover:text-white hover:border-slate-600 font-semibold transition-colors">Cerrar</button>
+                        <button type="submit" class="flex-1 px-4 py-2 rounded-lg bg-cyan-600 hover:bg-cyan-500 text-white font-semibold transition-colors">Enviar</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+    </body>
+    <script>
+        (function () {
+            var cards = document.querySelectorAll('.project-card');
+            function setActive(el, active) {
+                if (active) el.classList.add('is-active'); else el.classList.remove('is-active');
+            }
+            cards.forEach(function (card) {
+                card.addEventListener('mouseenter', function () { setActive(card, true); });
+                card.addEventListener('mouseleave', function () { setActive(card, false); });
+                card.addEventListener('focus', function () { setActive(card, true); });
+                card.addEventListener('blur', function () { setActive(card, false); });
+            });
+        })();
+    </script>
+    <script src="./modal.js"></script>
