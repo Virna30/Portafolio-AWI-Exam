@@ -38,77 +38,22 @@
             /* Mobile: FORZAR layout exacto con grid de 2 columnas */
             @media (max-width: 767px) {
                 .page-sections {
-                    display: grid !important;
-                    grid-template-columns: 1fr 1fr !important;
-                    gap: 1rem;
+                    display: flex !important;
+                    flex-direction: column !important;
+                    gap: 1.25rem !important;
                 }
                 .section-row-1, .section-row-2, .section-row-3 {
                     display: contents !important;
                 }
                 /* Hero: 100% (ambas columnas) - Fila 1 */
-                .block-hero {
-                    order: 1 !important;
-                    grid-column: 1 / -1 !important;
-                    grid-row: 1 !important;
+                .block-hero, .block-metrics, .block-sistema, .block-expertise, .block-project-1, .block-project-2, .block-activity {
                     width: 100% !important;
-                    min-width: 0;
-                }
-                /* Performance Metrics: 50% izquierda - Fila 2 */
-                .block-metrics {
-                    order: 2 !important;
-                    grid-column: 1 / 2 !important;
-                    grid-row: 2 !important;
-                    width: 100% !important;
-                    max-width: none !important;
-                    min-width: 0;
-                }
-                /* Sistema de gestión: 100% (ambas columnas) - Fila 3 */
-                .block-sistema {
-                    order: 3 !important;
-                    grid-column: 1 / -1 !important;
-                    grid-row: 3 !important;
-                    width: 100% !important;
-                    min-width: 0;
-                }
-                /* Expertise: izquierda - Fila 4 */
-                .block-expertise {
-                    order: 4 !important;
-                    grid-column: 1 / 2 !important;
-                    grid-row: 4 !important;
-                    width: 100% !important;
-                    min-width: 0;
-                }
-                /* Project 1: derecha - Fila 4 */
-                .block-project-1 {
-                    order: 5 !important;
-                    grid-column: 2 / 3 !important;
-                    grid-row: 4 !important;
-                    width: 100% !important;
-                    min-width: 0;
-                }
-                /* Project 2: izquierda - Fila 5 */
-                .block-project-2 {
-                    order: 6 !important;
-                    grid-column: 1 / 2 !important;
-                    grid-row: 5 !important;
-                    width: 100% !important;
-                    min-width: 0;
-                }
-                /* Activity: derecha - Fila 5 */
-                .block-activity {
-                    order: 7 !important;
-                    grid-column: 2 / 3 !important;
-                    grid-row: 5 !important;
-                    width: 100% !important;
-                    min-width: 0;
+                    grid-column: span 2 !important;
+                    order: unset !important;
                 }
                 /* Div vacío para reservar espacio junto a Performance Metrics - misma fila */
                 .block-empty-metrics {
-                    order: 2 !important;
-                    grid-column: 2 / 3 !important;
-                    grid-row: 2 !important;
-                    display: block !important;
-                    min-height: 0;
+                    display: none !important;
                 }
             }
             /* Desktop: layout exacto por filas, Hero/Sistema misma columna, 3 tarjetas en fila */
